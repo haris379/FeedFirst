@@ -1,5 +1,11 @@
 import { useEffect, useRef } from "react";
-import { MapContainer, TileLayer, Marker, useMapEvents, useMap } from "react-leaflet";
+import {
+  MapContainer,
+  TileLayer,
+  Marker,
+  useMapEvents,
+  useMap,
+} from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
@@ -29,7 +35,11 @@ const RecenterOnChange = ({ lat, lng }: { lat: number; lng: number }) => {
   return null;
 };
 
-const ClickToPlace = ({ onMove }: { onMove: (lat: number, lng: number) => void }) => {
+const ClickToPlace = ({
+  onMove,
+}: {
+  onMove: (lat: number, lng: number) => void;
+}) => {
   useMapEvents({
     click(e) {
       onMove(e.latlng.lat, e.latlng.lng);
@@ -47,8 +57,16 @@ const LocationPickerMap = ({ lat, lng, onMove }: LocationPickerMapProps) => {
   const markerRef = useRef<L.Marker>(null);
 
   return (
-    <div className="rounded-xl overflow-hidden border border-gray-200" style={{ height: 260 }}>
-      <MapContainer center={[lat, lng]} zoom={16} scrollWheelZoom={false} style={{ height: "100%", width: "100%" }}>
+    <div
+      className="rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700"
+      style={{ height: 260 }}
+    >
+      <MapContainer
+        center={[lat, lng]}
+        zoom={16}
+        scrollWheelZoom={false}
+        style={{ height: "100%", width: "100%" }}
+      >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

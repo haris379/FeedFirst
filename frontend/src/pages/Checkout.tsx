@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, Navigate } from "react-router-dom";
@@ -141,7 +142,6 @@ const Checkout = () => {
     ? formCity
     : selectedSavedAddress?.city;
 
-  // Refresh the quote when the cart, delivery city, or payment option changes.
   useEffect(() => {
     if (lines.length === 0) return;
 
@@ -325,19 +325,24 @@ const Checkout = () => {
     }
   };
 
+  const inputClass =
+    "w-full mt-1 px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[var(--color-seed)]/40 transition-colors";
+
   return (
-    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 grid lg:grid-cols-3 gap-10">
+    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 grid lg:grid-cols-3 gap-10 text-gray-800 dark:text-gray-100 transition-colors duration-300">
       <form
         onSubmit={(e) => e.preventDefault()}
         className="lg:col-span-2 space-y-6"
       >
-        <h1 className="text-3xl font-bold text-[var(--color-forest)]">
+        <h1 className="text-3xl font-bold text-[var(--color-forest)] dark:text-[var(--color-leaf)]">
           Checkout
         </h1>
 
         {/* Delivery address */}
-        <div className="bg-white rounded-2xl border border-black/5 p-6 space-y-4">
-          <h2 className="font-semibold text-gray-800">Delivery Address</h2>
+        <div className="bg-white dark:bg-gray-900 rounded-2xl border border-black/5 dark:border-white/10 p-6 space-y-4 shadow-sm dark:shadow-black/20">
+          <h2 className="font-semibold text-gray-800 dark:text-gray-100">
+            Delivery Address
+          </h2>
 
           {addressesLoading ? (
             <Loading label="Loading your addresses..." />
@@ -354,8 +359,8 @@ const Checkout = () => {
                         onClick={() => setSelectedAddressId(a._id)}
                         className={`cursor-pointer rounded-xl border p-4 transition-colors ${
                           selected
-                            ? "border-[var(--color-forest)] bg-[var(--color-forest)]/5"
-                            : "border-gray-200 hover:border-gray-300"
+                            ? "border-[var(--color-seed)] bg-[var(--color-seed)]/10"
+                            : "border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600"
                         }`}
                       >
                         <div className="flex items-start justify-between gap-3">
@@ -363,8 +368,8 @@ const Checkout = () => {
                             <span
                               className={`mt-0.5 flex items-center justify-center w-5 h-5 rounded-full border-2 shrink-0 ${
                                 selected
-                                  ? "border-[var(--color-forest)] bg-[var(--color-forest)] text-white"
-                                  : "border-gray-300"
+                                  ? "border-[var(--color-seed)] bg-[var(--color-seed)] text-white"
+                                  : "border-gray-300 dark:border-gray-600"
                               }`}
                             >
                               {selected && "✓"}
@@ -372,7 +377,7 @@ const Checkout = () => {
 
                             <div>
                               <div className="flex items-center gap-2">
-                                <p className="font-semibold text-gray-800">
+                                <p className="font-semibold text-gray-800 dark:text-gray-100">
                                   {a.label || "Address"}
                                 </p>
 
@@ -383,13 +388,15 @@ const Checkout = () => {
                                 )}
                               </div>
 
-                              <p className="text-sm text-gray-600 mt-1">
+                              <p className="text-sm text-gray-600 dark:text-gray-300 mt-1">
                                 {a.fullName}
                               </p>
 
-                              <p className="text-sm text-gray-500">{a.phone}</p>
+                              <p className="text-sm text-gray-500 dark:text-gray-400">
+                                {a.phone}
+                              </p>
 
-                              <p className="text-sm text-gray-500">
+                              <p className="text-sm text-gray-500 dark:text-gray-400">
                                 {a.street}, {a.city} {a.postalCode}
                               </p>
                             </div>
@@ -403,7 +410,7 @@ const Checkout = () => {
                                   e.stopPropagation();
                                   setDefaultAddress(a._id);
                                 }}
-                                className="text-xs text-[var(--color-forest)] hover:underline whitespace-nowrap"
+                                className="text-xs text-[var(--color-seed)] hover:underline whitespace-nowrap"
                               >
                                 Set as Default
                               </button>
@@ -415,7 +422,7 @@ const Checkout = () => {
                                 e.stopPropagation();
                                 deleteAddress(a._id);
                               }}
-                              className="text-xs text-red-500 hover:underline"
+                              className="text-xs text-red-500 dark:text-red-400 hover:underline"
                             >
                               Delete
                             </button>
@@ -432,8 +439,8 @@ const Checkout = () => {
                 onClick={startNewAddress}
                 className={`w-full text-left rounded-xl border-2 border-dashed p-4 text-sm font-medium transition-colors ${
                   showingNewAddressForm
-                    ? "border-[var(--color-forest)] text-[var(--color-forest)]"
-                    : "border-gray-300 text-gray-600 hover:border-gray-400"
+                    ? "border-[var(--color-seed)] text-[var(--color-seed)]"
+                    : "border-gray-300 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:border-gray-400 dark:hover:border-gray-600"
                 }`}
               >
                 + Add New Address
@@ -442,13 +449,13 @@ const Checkout = () => {
           )}
 
           {!addressesLoading && showingNewAddressForm && (
-            <div className="pt-2 space-y-4 border-t border-black/5">
+            <div className="pt-2 space-y-4 border-t border-black/5 dark:border-white/10">
               <div className="flex flex-wrap items-center gap-3">
                 <button
                   type="button"
                   onClick={detectLocation}
                   disabled={detecting}
-                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full border border-[var(--color-forest)] text-[var(--color-forest)] text-sm font-semibold hover:bg-[var(--color-forest)]/5 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full border border-[var(--color-seed)] text-[var(--color-seed)] text-sm font-semibold hover:bg-[var(--color-seed)]/10 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                 >
                   📍{" "}
                   {detecting
@@ -461,7 +468,7 @@ const Checkout = () => {
                     className={`text-xs font-medium ${
                       locationImprecise
                         ? "text-[var(--color-seed)]"
-                        : "text-[var(--color-forest)]"
+                        : "text-[var(--color-leaf)]"
                     }`}
                   >
                     {locationImprecise
@@ -489,10 +496,12 @@ const Checkout = () => {
 
               <div className="grid sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="text-sm text-gray-600">Full Name</label>
+                  <label className="text-sm text-gray-600 dark:text-gray-300">
+                    Full Name
+                  </label>
                   <input
                     {...register("fullName", { required: true })}
-                    className="w-full mt-1 px-4 py-2.5 rounded-lg border border-gray-300"
+                    className={inputClass}
                   />
                   {errors.fullName && (
                     <p className="text-xs text-red-500 mt-1">
@@ -502,10 +511,12 @@ const Checkout = () => {
                 </div>
 
                 <div>
-                  <label className="text-sm text-gray-600">Email</label>
+                  <label className="text-sm text-gray-600 dark:text-gray-300">
+                    Email
+                  </label>
                   <input
                     {...register("email", { required: true })}
-                    className="w-full mt-1 px-4 py-2.5 rounded-lg border border-gray-300"
+                    className={inputClass}
                   />
                   {errors.email && (
                     <p className="text-xs text-red-500 mt-1">
@@ -515,10 +526,12 @@ const Checkout = () => {
                 </div>
 
                 <div>
-                  <label className="text-sm text-gray-600">Phone</label>
+                  <label className="text-sm text-gray-600 dark:text-gray-300">
+                    Phone
+                  </label>
                   <input
                     {...register("phone", { required: true })}
-                    className="w-full mt-1 px-4 py-2.5 rounded-lg border border-gray-300"
+                    className={inputClass}
                   />
                   {errors.phone && (
                     <p className="text-xs text-red-500 mt-1">
@@ -528,10 +541,12 @@ const Checkout = () => {
                 </div>
 
                 <div>
-                  <label className="text-sm text-gray-600">City</label>
+                  <label className="text-sm text-gray-600 dark:text-gray-300">
+                    City
+                  </label>
                   <input
                     {...register("city", { required: true })}
-                    className="w-full mt-1 px-4 py-2.5 rounded-lg border border-gray-300"
+                    className={inputClass}
                   />
                   {errors.city && (
                     <p className="text-xs text-red-500 mt-1">
@@ -541,12 +556,12 @@ const Checkout = () => {
                 </div>
 
                 <div className="sm:col-span-2">
-                  <label className="text-sm text-gray-600">
+                  <label className="text-sm text-gray-600 dark:text-gray-300">
                     Street Address
                   </label>
                   <input
                     {...register("street", { required: true })}
-                    className="w-full mt-1 px-4 py-2.5 rounded-lg border border-gray-300"
+                    className={inputClass}
                   />
                   {errors.street && (
                     <p className="text-xs text-red-500 mt-1">
@@ -556,10 +571,12 @@ const Checkout = () => {
                 </div>
 
                 <div>
-                  <label className="text-sm text-gray-600">Postal Code</label>
+                  <label className="text-sm text-gray-600 dark:text-gray-300">
+                    Postal Code
+                  </label>
                   <input
                     {...register("postalCode", { required: true })}
-                    className="w-full mt-1 px-4 py-2.5 rounded-lg border border-gray-300"
+                    className={inputClass}
                   />
                   {errors.postalCode && (
                     <p className="text-xs text-red-500 mt-1">
@@ -569,18 +586,18 @@ const Checkout = () => {
                 </div>
 
                 <div>
-                  <label className="text-sm text-gray-600">
+                  <label className="text-sm text-gray-600 dark:text-gray-300">
                     Delivery Instructions
                   </label>
                   <input
                     {...register("deliveryInstructions")}
-                    className="w-full mt-1 px-4 py-2.5 rounded-lg border border-gray-300"
+                    className={inputClass}
                   />
                 </div>
               </div>
 
-              <div className="space-y-2 pt-2 border-t border-black/5">
-                <label className="flex items-center gap-2 text-sm text-gray-700">
+              <div className="space-y-2 pt-2 border-t border-black/5 dark:border-white/10">
+                <label className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
                   <input
                     type="checkbox"
                     checked={saveNewAddress}
@@ -590,7 +607,7 @@ const Checkout = () => {
                 </label>
 
                 {saveNewAddress && (
-                  <label className="flex items-center gap-2 text-sm text-gray-700 pl-6">
+                  <label className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300 pl-6">
                     <input
                       type="checkbox"
                       checked={makeDefault}
@@ -603,19 +620,24 @@ const Checkout = () => {
             </div>
           )}
 
-          <div className="pt-2 border-t border-black/5">
-            <label className="text-sm text-gray-600">Order Notes</label>
+          <div className="pt-2 border-t border-black/5 dark:border-white/10">
+            <label className="text-sm text-gray-600 dark:text-gray-300">
+              Order Notes
+            </label>
+
             <textarea
               {...register("customerNotes")}
               rows={2}
-              className="w-full mt-1 px-4 py-2.5 rounded-lg border border-gray-300"
+              className={inputClass}
             />
           </div>
         </div>
 
         {/* Payment method and payment amount selection */}
-        <div className="bg-white rounded-2xl border border-black/5 p-6">
-          <h2 className="font-semibold text-gray-800 mb-3">Payment Method</h2>
+        <div className="bg-white dark:bg-gray-900 rounded-2xl border border-black/5 dark:border-white/10 p-6 shadow-sm dark:shadow-black/20">
+          <h2 className="font-semibold text-gray-800 dark:text-gray-100 mb-3">
+            Payment Method
+          </h2>
 
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
             {paymentMethods.map((m) => (
@@ -623,10 +645,10 @@ const Checkout = () => {
                 type="button"
                 key={m.id}
                 onClick={() => setMethod(m.id)}
-                className={`px-4 py-3 rounded-xl border text-sm font-medium ${
+                className={`px-4 py-3 rounded-xl border text-sm font-medium transition-colors ${
                   method === m.id
-                    ? "border-[var(--color-forest)] bg-[var(--color-forest)]/5 text-[var(--color-forest)]"
-                    : "border-gray-300 text-gray-600"
+                    ? "border-[var(--color-seed)] bg-[var(--color-seed)]/10 text-[var(--color-seed)]"
+                    : "border-gray-300 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:border-gray-400 dark:hover:border-gray-600"
                 }`}
               >
                 {m.label}
@@ -638,21 +660,32 @@ const Checkout = () => {
             This is a demo/test payment flow — no real transaction is processed.
           </p>
 
-          <div className="mt-6 border-t border-black/5 pt-5 space-y-3">
-            <h2 className="font-semibold text-gray-800">Payment Amount</h2>
+          <div className="mt-6 border-t border-black/5 dark:border-white/10 pt-5 space-y-3">
+            <h2 className="font-semibold text-gray-800 dark:text-gray-100">
+              Payment Amount
+            </h2>
 
-            <label className="flex gap-3 items-start rounded-xl border p-4 cursor-pointer">
+            <label
+              className={`flex gap-3 items-start rounded-xl border p-4 cursor-pointer transition-colors ${
+                paymentOption === "delivery_advance"
+                  ? "border-[var(--color-seed)] bg-[var(--color-seed)]/10"
+                  : "border-gray-200 dark:border-gray-700"
+              }`}
+            >
               <input
                 type="radio"
                 name="paymentOption"
                 checked={paymentOption === "delivery_advance"}
                 onChange={() => setPaymentOption("delivery_advance")}
+                className="mt-1 accent-[var(--color-seed)]"
               />
 
               <span>
-                <strong className="block">Pay Delivery Charges Only</strong>
+                <strong className="block text-gray-800 dark:text-gray-100">
+                  Pay Delivery Charges Only
+                </strong>
 
-                <span className="text-sm text-gray-500">
+                <span className="text-sm text-gray-500 dark:text-gray-400">
                   {pricing?.advanceRequired ? (
                     <>
                       Pay Rs {pricing.advanceRequired} now. Pay the remaining
@@ -667,18 +700,27 @@ const Checkout = () => {
               </span>
             </label>
 
-            <label className="flex gap-3 items-start rounded-xl border p-4 cursor-pointer">
+            <label
+              className={`flex gap-3 items-start rounded-xl border p-4 cursor-pointer transition-colors ${
+                paymentOption === "full_amount"
+                  ? "border-[var(--color-seed)] bg-[var(--color-seed)]/10"
+                  : "border-gray-200 dark:border-gray-700"
+              }`}
+            >
               <input
                 type="radio"
                 name="paymentOption"
                 checked={paymentOption === "full_amount"}
                 onChange={() => setPaymentOption("full_amount")}
+                className="mt-1 accent-[var(--color-seed)]"
               />
 
               <span>
-                <strong className="block">Pay Full Amount</strong>
+                <strong className="block text-gray-800 dark:text-gray-100">
+                  Pay Full Amount
+                </strong>
 
-                <span className="text-sm text-gray-500">
+                <span className="text-sm text-gray-500 dark:text-gray-400">
                   Pay the complete order total of Rs {pricing?.total ?? 0},
                   including delivery, now.
                 </span>
@@ -691,21 +733,23 @@ const Checkout = () => {
           type="button"
           onClick={handlePlaceOrder}
           disabled={submitting || addressesLoading || !pricing}
-          className="w-full py-3.5 rounded-full bg-[var(--color-forest)] text-white font-semibold hover:bg-[var(--color-forest-dark)] disabled:opacity-50"
+          className="w-full py-3.5 rounded-full bg-[var(--color-seed)] text-white font-semibold hover:bg-[var(--color-seed)]/90 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
         >
           {submitting ? "Placing Order..." : "Place Order"}
         </button>
       </form>
 
       {/* Order summary */}
-      <aside className="bg-white rounded-2xl border border-black/5 p-6 h-fit sticky top-24">
-        <h2 className="font-bold text-lg text-gray-800 mb-4">Order Summary</h2>
+      <aside className="bg-white dark:bg-gray-900 rounded-2xl border border-black/5 dark:border-white/10 p-6 h-fit sticky top-24 shadow-sm dark:shadow-black/20">
+        <h2 className="font-bold text-lg text-gray-800 dark:text-gray-100 mb-4">
+          Order Summary
+        </h2>
 
-        <p className="text-sm text-gray-500 mb-2">
+        <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
           Customized Feed — {birdType}
         </p>
 
-        <ul className="text-sm text-gray-600 space-y-1 mb-4">
+        <ul className="text-sm text-gray-600 dark:text-gray-300 space-y-1 mb-4">
           {lines.map((l) => (
             <li key={l.product._id} className="flex justify-between">
               <span>{l.product.name}</span>
@@ -717,23 +761,23 @@ const Checkout = () => {
         </ul>
 
         {pricing && (
-          <div className="border-t border-black/5 pt-4 space-y-1.5 text-sm">
-            <div className="flex justify-between text-gray-600">
+          <div className="border-t border-black/5 dark:border-white/10 pt-4 space-y-1.5 text-sm">
+            <div className="flex justify-between text-gray-600 dark:text-gray-400">
               <span>Feed Total</span>
               <span>Rs {pricing.subtotal}</span>
             </div>
 
-            <div className="flex justify-between text-gray-600">
+            <div className="flex justify-between text-gray-600 dark:text-gray-400">
               <span>Delivery Fee</span>
               <span>Rs {pricing.deliveryFee}</span>
             </div>
 
-            <div className="flex justify-between font-bold text-gray-800 text-base pt-2 border-t border-black/5">
+            <div className="flex justify-between font-bold text-gray-800 dark:text-gray-100 text-base pt-2 border-t border-black/5 dark:border-white/10">
               <span>Grand Total</span>
               <span>Rs {pricing.total}</span>
             </div>
 
-            <div className="mt-3 bg-var(--color-seed)/10 text-var(--color-seed) rounded-lg p-3 text-xs font-medium">
+            <div className="mt-3 bg-[var(--color-seed)]/10 text-[var(--color-seed)] rounded-lg p-3 text-xs font-medium">
               {paymentOption === "full_amount" ? (
                 <>
                   The full amount of Rs {pricing.total}, including delivery,

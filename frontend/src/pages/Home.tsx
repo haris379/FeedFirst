@@ -62,17 +62,20 @@ const Home = () => {
   }, []);
 
   return (
-    <div>
-      <section className="bg-gradient-to-b from-(--color-cream) to-white">
+    <div className="bg-white text-gray-800 dark:bg-gray-950 dark:text-gray-100 transition-colors duration-300">
+      {/* Hero */}
+      <section className="bg-gradient-to-b from-[var(--color-cream)] to-white dark:from-gray-900 dark:to-gray-950 transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 grid md:grid-cols-2 gap-10 items-center">
           <div>
-            <h1 className="text-4xl sm:text-5xl font-extrabold text-[var(--color-forest)] leading-tight">
+            <h1 className="text-4xl sm:text-5xl font-extrabold text-[var(--color-forest)] dark:text-[var(--color-leaf)] leading-tight">
               Custom Bird Feed Made for Your Birds
             </h1>
-            <p className="mt-4 text-lg text-gray-600">
+
+            <p className="mt-4 text-lg text-gray-600 dark:text-gray-300">
               Create the perfect feed mix based on your birds' needs — chosen
               ingredient by ingredient, priced fairly, delivered to your door.
             </p>
+
             <div className="mt-8 flex flex-wrap gap-4">
               <Link
                 to="/customize"
@@ -80,59 +83,78 @@ const Home = () => {
               >
                 Customize Your Feed
               </Link>
+
               <Link
                 to="/shop"
-                className="px-6 py-3 rounded-full border-2 border-[var(--color-forest)] text-[var(--color-forest)] font-semibold hover:bg-[var(--color-forest)]/5 transition-colors"
+                className="px-6 py-3 rounded-full border-2 border-[var(--color-forest)] dark:border-[var(--color-leaf)] text-[var(--color-forest)] dark:text-[var(--color-leaf)] font-semibold hover:bg-[var(--color-forest)]/5 dark:hover:bg-white/5 transition-colors"
               >
                 Shop Ingredients
               </Link>
             </div>
           </div>
+
           <img
             src={HeroImage}
-            className="rounded-3xl bg-[var(--color-leaf)]/15 aspect-square flex items-center justify-center text-8xl mx-auto md:mx-0"
+            className="rounded-3xl bg-[var(--color-leaf)]/15 dark:bg-[var(--color-leaf)]/10 aspect-square flex items-center justify-center text-8xl mx-auto md:mx-0"
             alt="HeroImage"
           />
         </div>
       </section>
 
+      {/* Features */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <h2 className="text-2xl font-bold text-center text-[var(--color-forest)] mb-10">
+        <h2 className="text-2xl font-bold text-center text-[var(--color-forest)] dark:text-[var(--color-leaf)] mb-10">
           Why Choose BirdFeast
         </h2>
+
         <div className="grid sm:grid-cols-3 gap-6">
           {features.map((f) => (
             <div
               key={f.title}
-              className="bg-white rounded-2xl p-6 shadow-sm border border-black/5 text-center"
+              className="bg-white dark:bg-gray-900 rounded-2xl p-6 shadow-sm dark:shadow-black/20 border border-black/5 dark:border-white/10 text-center transition-colors duration-300"
             >
               <div className="text-4xl mb-3">{f.icon}</div>
-              <h3 className="font-semibold text-gray-800">{f.title}</h3>
-              <p className="text-sm text-gray-500 mt-2">{f.desc}</p>
+
+              <h3 className="font-semibold text-gray-800 dark:text-gray-100">
+                {f.title}
+              </h3>
+
+              <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
+                {f.desc}
+              </p>
             </div>
           ))}
         </div>
       </section>
 
-      <section className="bg-white py-16 border-y border-black/5">
+      {/* How It Works */}
+      <section className="bg-white dark:bg-gray-900 py-16 border-y border-black/5 dark:border-white/10 transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-center text-[var(--color-forest)] mb-10">
+          <h2 className="text-2xl font-bold text-center text-[var(--color-forest)] dark:text-[var(--color-leaf)] mb-10">
             How It Works
           </h2>
+
           <div className="grid sm:grid-cols-3 gap-6">
             {steps.map((s) => (
               <div key={s.step} className="text-center">
                 <div className="w-12 h-12 mx-auto rounded-full bg-[var(--color-forest)] text-white flex items-center justify-center font-bold mb-3">
                   {s.step}
                 </div>
-                <h3 className="font-semibold text-gray-800">{s.title}</h3>
-                <p className="text-sm text-gray-500 mt-2">{s.desc}</p>
+
+                <h3 className="font-semibold text-gray-800 dark:text-gray-100">
+                  {s.title}
+                </h3>
+
+                <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
+                  {s.desc}
+                </p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
+      {/* Ingredients */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         {loading ? (
           <Loading label="Loading ingredients..." />
@@ -147,10 +169,10 @@ const Home = () => {
               <Link
                 key={p._id}
                 to={`/products/${p._id}`}
-                className="group bg-white rounded-2xl border border-black/5 shadow-sm hover:shadow-lg transition-all duration-200 overflow-hidden flex flex-col h-full"
+                className="group bg-white dark:bg-gray-900 rounded-2xl border border-black/5 dark:border-white/10 shadow-sm dark:shadow-black/20 hover:shadow-lg dark:hover:shadow-black/40 transition-all duration-200 overflow-hidden flex flex-col h-full"
               >
                 {/* Product Image */}
-                <div className="aspect-video bg-[var(--color-leaf)]/10 flex items-center justify-center text-4xl overflow-hidden">
+                <div className="aspect-video bg-[var(--color-leaf)]/10 dark:bg-[var(--color-leaf)]/5 flex items-center justify-center text-4xl overflow-hidden">
                   {p.image ? (
                     <img
                       src={p.image}
@@ -165,23 +187,23 @@ const Home = () => {
                 {/* Product Details */}
                 <div className="p-4 flex flex-col flex-1">
                   <div>
-                    <h3 className="font-semibold text-gray-800 line-clamp-1 min-h-[1.5rem]">
+                    <h3 className="font-semibold text-gray-800 dark:text-gray-100 line-clamp-1 min-h-[1.5rem]">
                       {p.name}
                     </h3>
 
-                    <p className="text-sm text-gray-500 line-clamp-2 mt-1 min-h-[2.5rem]">
+                    <p className="text-sm text-gray-500 dark:text-gray-400 line-clamp-2 mt-1 min-h-[2.5rem]">
                       {p.description}
                     </p>
                   </div>
 
                   {/* Price & Stock */}
                   <div className="mt-4 flex items-center justify-between gap-2 min-h-[2rem]">
-                    <span className="font-bold text-[var(--color-forest)]">
+                    <span className="font-bold text-[var(--color-forest)] dark:text-[var(--color-leaf)]">
                       Rs {p.price} / {p.unit}
                     </span>
 
                     {p.stock <= 0 && (
-                      <span className="text-xs text-red-600 font-medium">
+                      <span className="text-xs text-red-600 dark:text-red-400 font-medium">
                         Out of stock
                       </span>
                     )}
@@ -205,7 +227,7 @@ const Home = () => {
                     <span
                       className={`block w-full px-4 py-2.5 rounded-lg text-sm font-semibold text-center transition-colors ${
                         p.stock <= 0
-                          ? "bg-gray-200 text-gray-500 cursor-not-allowed"
+                          ? "bg-gray-200 dark:bg-gray-800 text-gray-500 dark:text-gray-500 cursor-not-allowed"
                           : "bg-[var(--color-forest)] text-white hover:bg-[var(--color-forest-dark)]"
                       }`}
                     >
@@ -218,30 +240,18 @@ const Home = () => {
           </div>
         )}
       </section>
-      {/* <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <h2 className="text-2xl font-bold text-center text-[var(--color-forest)] mb-10">
-          Popular Ingredients
-        </h2>
-        <div className="flex flex-wrap justify-center gap-3">
-          {popularIngredients.map((i) => (
-            <span
-              key={i}
-              className="px-4 py-2 rounded-full bg-[var(--color-seed)]/10 text-[var(--color-seed)] font-medium text-sm border border-[var(--color-seed)]/30"
-            >
-              {i}
-            </span>
-          ))}
-        </div>
-      </section> */}
 
-      <section className="bg-[var(--color-forest)] text-white py-16">
+      {/* CTA */}
+      <section className="bg-[var(--color-forest)] dark:bg-[var(--color-forest-dark)] text-white py-16 transition-colors duration-300">
         <div className="max-w-3xl mx-auto px-4 text-center">
           <h2 className="text-2xl font-bold mb-3">
             Ready to mix the perfect feed?
           </h2>
+
           <p className="text-white/80 mb-6">
             It takes less than five minutes to build a custom order.
           </p>
+
           <Link
             to="/customize"
             className="inline-block px-6 py-3 rounded-full bg-white text-[var(--color-forest)] font-semibold hover:bg-white/90 transition-colors"
