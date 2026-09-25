@@ -1,14 +1,32 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
   --color-forest: #2f4a3c;
   --color-forest-dark: #1f3329;
   --color-leaf: #6b9b6e;
   --color-cream: #faf6ed;
   --color-seed: #c98a4b;
+  --color-navbar: #f1f5ee;
+}
+
+.dark {
+  --color-forest: #7fb583;
+  --color-forest-dark: #9bc99d;
+  --color-leaf: #4d7350;
+  --color-cream: #14181a;
+  --color-seed: #e0a262;
+  --color-navbar: #1b2320;
 }
 
 body {
   font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
   background-color: var(--color-cream);
+  color: #1f2937;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.dark body {
+  color: #e5e7eb;
 }

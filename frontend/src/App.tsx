@@ -34,102 +34,105 @@ import ManageCustomers from "./pages/admin/ManageCustomers";
 import DeliverySettings from "./pages/admin/DeliverySettings";
 import AdminProfile from "./pages/admin/AdminProfile";
 import ForgotPassword from "./pages/ForgotPassword";
+import { ThemeProvider } from "./context/ThemeContext";
 
 function App() {
   return (
-    <ToastProvider>
-      <AuthProvider>
-        <CartProvider>
-          <BrowserRouter>
-            <ScrollManager />
-            <Routes>
-              <Route element={<PublicLayout />}>
-                <Route path="/" element={<Home />} />
-                <Route path="/shop" element={<Shop />} />
-                <Route path="/products/:id" element={<ProductDetails />} />
-                <Route path="/customize" element={<CustomizeFeed />} />
-                <Route path="/about" element={<About />} />
-                <Route path="/contact" element={<Contact />} />
-                <Route path="/faq" element={<FAQ />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/signup" element={<Signup />} />
-                <Route path="/forgot-password" element={<ForgotPassword />} />
-                <Route path="/cart" element={<Cart />} />
+    <ThemeProvider>
+      <ToastProvider>
+        <AuthProvider>
+          <CartProvider>
+            <BrowserRouter>
+              <ScrollManager />
+              <Routes>
+                <Route element={<PublicLayout />}>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/shop" element={<Shop />} />
+                  <Route path="/products/:id" element={<ProductDetails />} />
+                  <Route path="/customize" element={<CustomizeFeed />} />
+                  <Route path="/about" element={<About />} />
+                  <Route path="/contact" element={<Contact />} />
+                  <Route path="/faq" element={<FAQ />} />
+                  <Route path="/login" element={<Login />} />
+                  <Route path="/signup" element={<Signup />} />
+                  <Route path="/forgot-password" element={<ForgotPassword />} />
+                  <Route path="/cart" element={<Cart />} />
+
+                  <Route
+                    path="/dashboard"
+                    element={
+                      <ProtectedRoute>
+                        <Dashboard />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/profile"
+                    element={
+                      <ProtectedRoute>
+                        <Profile />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/checkout"
+                    element={
+                      <ProtectedRoute>
+                        <Checkout />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/order-confirmation/:id"
+                    element={
+                      <ProtectedRoute>
+                        <OrderConfirmation />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/my-orders"
+                    element={
+                      <ProtectedRoute>
+                        <MyOrders />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/my-orders/:id"
+                    element={
+                      <ProtectedRoute>
+                        <OrderDetails />
+                      </ProtectedRoute>
+                    }
+                  />
+                </Route>
 
                 <Route
-                  path="/dashboard"
+                  path="/admin"
                   element={
-                    <ProtectedRoute>
-                      <Dashboard />
+                    <ProtectedRoute adminOnly>
+                      <AdminLayout />
                     </ProtectedRoute>
                   }
-                />
-                <Route
-                  path="/profile"
-                  element={
-                    <ProtectedRoute>
-                      <Profile />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/checkout"
-                  element={
-                    <ProtectedRoute>
-                      <Checkout />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/order-confirmation/:id"
-                  element={
-                    <ProtectedRoute>
-                      <OrderConfirmation />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/my-orders"
-                  element={
-                    <ProtectedRoute>
-                      <MyOrders />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/my-orders/:id"
-                  element={
-                    <ProtectedRoute>
-                      <OrderDetails />
-                    </ProtectedRoute>
-                  }
-                />
-              </Route>
+                >
+                  <Route index element={<AdminDashboard />} />
+                  <Route path="products" element={<ManageProducts />} />
+                  <Route path="categories" element={<ManageCategories />} />
+                  <Route path="orders" element={<ManageOrders />} />
+                  <Route path="orders/:id" element={<AdminOrderDetails />} />
+                  <Route path="customers" element={<ManageCustomers />} />
+                  <Route path="delivery" element={<DeliverySettings />} />
+                  <Route path="profile" element={<AdminProfile />} />
+                </Route>
 
-              <Route
-                path="/admin"
-                element={
-                  <ProtectedRoute adminOnly>
-                    <AdminLayout />
-                  </ProtectedRoute>
-                }
-              >
-                <Route index element={<AdminDashboard />} />
-                <Route path="products" element={<ManageProducts />} />
-                <Route path="categories" element={<ManageCategories />} />
-                <Route path="orders" element={<ManageOrders />} />
-                <Route path="orders/:id" element={<AdminOrderDetails />} />
-                <Route path="customers" element={<ManageCustomers />} />
-                <Route path="delivery" element={<DeliverySettings />} />
-                <Route path="profile" element={<AdminProfile />} />
-              </Route>
-
-              <Route path="*" element={<Home />} />
-            </Routes>
-          </BrowserRouter>
-        </CartProvider>
-      </AuthProvider>
-    </ToastProvider>
+                <Route path="*" element={<Home />} />
+              </Routes>
+            </BrowserRouter>
+          </CartProvider>
+        </AuthProvider>
+      </ToastProvider>
+    </ThemeProvider>
   );
 }
 

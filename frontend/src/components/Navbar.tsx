@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { ShoppingCart } from "lucide-react";
+import { ShoppingCart, Sun, Moon, X, Menu } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import { useCart } from "../context/CartContext";
+import { useTheme } from "../context/ThemeContext";
 import siteIcon from "../images/siteIcon.png";
 
 const navLinks = [
@@ -21,7 +22,7 @@ const CartIcon = () => {
   return (
     <Link
       to="/cart"
-      className="relative flex items-center text-gray-700 hover:text-[var(--color-forest)] transition-colors"
+      className="relative flex items-center text-gray-700 dark:text-gray-200 hover:text-[var(--color-forest)] transition-colors"
       aria-label="View cart"
     >
       <ShoppingCart size={22} />
@@ -34,30 +35,42 @@ const CartIcon = () => {
   );
 };
 
+const ThemeToggle = () => {
+  const { theme, toggleTheme } = useTheme();
+  return (
+    <button
+      onClick={toggleTheme}
+      aria-label="Toggle dark mode"
+      className="flex items-center justify-center w-9 h-9 rounded-full border border-black/10 dark:border-white/10 text-gray-700 dark:text-gray-200 hover:bg-black/5 dark:hover:bg-white/10 transition-colors"
+    >
+      {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
+    </button>
+  );
+};
+
 const Navbar = () => {
   const { user, logout } = useAuth();
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
 
   return (
-    <header className="sticky top-0 z-40 bg-[var(--color-cream)]/95 backdrop-blur border-b border-black/5">
+    <header className="sticky top-0 z-40 bg-[var(--color-navbar)]/95 backdrop-blur border-b border-[var(--color-forest)]/15 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
         <Link
           to="/"
           className="flex items-center gap-2 font-bold text-xl text-[var(--color-forest)]"
         >
           <span>
-            {" "}
             <img
               src={siteIcon}
-              alt="FeedFirst"
+              alt="BirdFeast"
               className="w-5 h-auto object-contain"
             />
-          </span>{" "}
-          FeedFirst
+          </span>
+          BirdFeast
         </Link>
 
-        <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-gray-700">
+        <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-gray-700 dark:text-gray-200">
           {navLinks.map((l) => (
             <Link
               key={l.to}
@@ -71,6 +84,7 @@ const Navbar = () => {
 
         <div className="flex items-center gap-4">
           <div className="hidden md:flex items-center gap-4">
+            <ThemeToggle />
             <CartIcon />
             {user ? (
               <>
@@ -110,34 +124,34 @@ const Navbar = () => {
             )}
           </div>
 
-          {/* Cart stays visible outside the hamburger menu on mobile too — it's a quick-access action, not a nav link. */}
-          <div className="md:hidden">
+          <div className="md:hidden flex items-center gap-3">
+            <ThemeToggle />
             <CartIcon />
           </div>
 
           <button
-            className="md:hidden text-2xl"
+            className="md:hidden flex items-center justify-center w-9 h-9 text-[var(--color-forest)]"
             onClick={() => setOpen((o) => !o)}
-            aria-label="Toggle menu"
+            aria-label={open ? "Close menu" : "Open menu"}
           >
-            ☰
+            {open ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
       </div>
 
       {open && (
-        <div className="md:hidden border-t border-black/5 px-4 pb-4 flex flex-col gap-3 bg-[var(--color-cream)]">
+        <div className="md:hidden border-t border-[var(--color-forest)]/15 px-4 pb-5 pt-2 flex flex-col gap-3 bg-[var(--color-navbar)] shadow-lg">
           {navLinks.map((l) => (
             <Link
               key={l.to}
               to={l.to}
               onClick={() => setOpen(false)}
-              className="py-1 text-gray-700"
+              className="py-1 text-gray-700 dark:text-gray-200"
             >
               {l.label}
             </Link>
           ))}
-          <div className="flex gap-3 pt-2 border-t border-black/5">
+          <div className="flex gap-3 pt-2 border-t border-[var(--color-forest)]/15">
             {user ? (
               <>
                 <Link
