@@ -50,11 +50,11 @@ const Navbar = () => {
             {" "}
             <img
               src={siteIcon}
-              alt="BirdFeast"
+              alt="FeedFirst"
               className="w-5 h-auto object-contain"
             />
           </span>{" "}
-          BirdFeast
+          FeedFirst
         </Link>
 
         <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-gray-700">

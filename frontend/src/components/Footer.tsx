@@ -12,10 +12,10 @@ const Footer = () => (
           >
             <img
               src={siteIcon}
-              alt="BirdFeast"
+              alt="FeedFirst"
               className="w-5 h-auto object-contain"
             />
-            BirdFeast
+            FeedFirst
           </Link>
         </div>
         <p className="text-sm text-white/70 text-center">Custom Feed. Happier Birds.</p>
