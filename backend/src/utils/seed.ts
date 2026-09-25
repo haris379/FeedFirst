@@ -21,14 +21,10 @@ const run = async () => {
     DeliverySettings.deleteMany({}),
   ]);
 
-  console.log("Creating admin & demo customer...");
-  await User.create({
-    name: "BirdFeast Admin",
-    email: "adminfeedfirst@gmail.com",
-    password: "Xybf8B@G1846",
-    role: "admin",
-  });
-  
+  // Admin creation is intentionally NOT done here anymore. The admin account
+  // is provisioned/synced automatically from ADMIN_EMAIL / ADMIN_PASSWORD in
+  // .env every time the server starts (see utils/ensureAdmin.ts, wired up in
+  // server.ts). Just start the server after seeding and it'll be recreated.
 
   console.log("Creating categories...");
   const categoryNames = ["Seeds", "Grains", "Nuts", "Mixed Blends"];
@@ -68,8 +64,7 @@ const run = async () => {
   });
 
   console.log("Seed complete.");
-  console.log("Admin login:    admin@birdfeast.com / Admin@123");
-  console.log("Customer login: customer@birdfeast.com / Customer@123");
+  console.log("Admin login: set via ADMIN_EMAIL / ADMIN_PASSWORD in .env — created on next server start.");
   await mongoose.disconnect();
   process.exit(0);
 };
