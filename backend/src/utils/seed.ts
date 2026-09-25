@@ -24,8 +24,8 @@ const run = async () => {
   console.log("Creating admin & demo customer...");
   await User.create({
     name: "BirdFeast Admin",
-    email: "admin@birdfeast.com",
-    password: "Admin@123",
+    email: "adminfeedfirst@gmail.com",
+    password: "Xybf8B@G1846",
     role: "admin",
   });
   
