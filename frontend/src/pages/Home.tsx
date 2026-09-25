@@ -5,6 +5,8 @@ import EmptyState from "../components/EmptyState";
 import HeroImage from "../images/HeroImage.png";
 import type { Product } from "../types";
 import api from "../services/api";
+import { useCart } from "../context/CartContext";
+import { useToast } from "../context/ToastContext";
 
 const features = [
   {
@@ -42,18 +44,12 @@ const steps = [
   },
 ];
 
-// const popularIngredients = [
-//   "Millet",
-//   "Sunflower Seeds",
-//   "Canary Seed",
-//   "Peanuts",
-//   "Mixed Wild Seed",
-//   "Safflower",
-// ];
-
 const Home = () => {
   const [loading, setLoading] = useState(true);
   const [products, setProducts] = useState<Product[]>([]);
+
+  const { addOrUpdateIngredient } = useCart();
+  const { showToast } = useToast();
 
   useEffect(() => {
     setLoading(true);
@@ -151,34 +147,71 @@ const Home = () => {
               <Link
                 key={p._id}
                 to={`/products/${p._id}`}
-                className="bg-white rounded-2xl border border-black/5 shadow-sm hover:shadow-md transition-shadow overflow-hidden"
+                className="group bg-white rounded-2xl border border-black/5 shadow-sm hover:shadow-lg transition-all duration-200 overflow-hidden flex flex-col h-full"
               >
+                {/* Product Image */}
                 <div className="aspect-video bg-[var(--color-leaf)]/10 flex items-center justify-center text-4xl overflow-hidden">
                   {p.image ? (
                     <img
                       src={p.image}
                       alt={p.name}
-                      className="w-full h-full object-contain"
+                      className="w-full h-full object-contain transition-transform duration-200 group-hover:scale-105"
                     />
                   ) : (
-                    "🌾"
+                    <span>🌾</span>
                   )}
-                </div>{" "}
-                <div className="p-4">
-                  <h3 className="font-semibold text-gray-800">{p.name}</h3>
-                  <p className="text-sm text-gray-500 line-clamp-2 mt-1">
-                    {p.description}
-                  </p>
-                  <div className="mt-3 flex items-center justify-between">
+                </div>
+
+                {/* Product Details */}
+                <div className="p-4 flex flex-col flex-1">
+                  <div>
+                    <h3 className="font-semibold text-gray-800 line-clamp-1 min-h-[1.5rem]">
+                      {p.name}
+                    </h3>
+
+                    <p className="text-sm text-gray-500 line-clamp-2 mt-1 min-h-[2.5rem]">
+                      {p.description}
+                    </p>
+                  </div>
+
+                  {/* Price & Stock */}
+                  <div className="mt-4 flex items-center justify-between gap-2 min-h-[2rem]">
                     <span className="font-bold text-[var(--color-forest)]">
                       Rs {p.price} / {p.unit}
                     </span>
+
                     {p.stock <= 0 && (
                       <span className="text-xs text-red-600 font-medium">
                         Out of stock
                       </span>
                     )}
                   </div>
+
+                  {/* Add Button */}
+                  <button
+                    disabled={p.stock <= 0}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+
+                      addOrUpdateIngredient(p, 1);
+                      showToast(
+                        `${p.name} added to your custom feed`,
+                        "success",
+                      );
+                    }}
+                    className="mt-auto pt-4 w-full"
+                  >
+                    <span
+                      className={`block w-full px-4 py-2.5 rounded-lg text-sm font-semibold text-center transition-colors ${
+                        p.stock <= 0
+                          ? "bg-gray-200 text-gray-500 cursor-not-allowed"
+                          : "bg-[var(--color-forest)] text-white hover:bg-[var(--color-forest-dark)]"
+                      }`}
+                    >
+                      {p.stock <= 0 ? "Out of Stock" : "Add to Custom Feed"}
+                    </span>
+                  </button>
                 </div>
               </Link>
             ))}
