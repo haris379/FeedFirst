@@ -31,7 +31,7 @@ app.use(
 );
 app.use(express.json());
 app.use(morgan("dev"));
-app.use("/uploads", express.static(path.join(__dirname, "..", "uploads")));
+// app.use("/uploads", express.static(path.join(__dirname, "..", "uploads")));
 app.use("/api/geocode", geocodeRoutes);
 
 // Basic rate limiting on auth endpoints to slow down brute-force attempts.
