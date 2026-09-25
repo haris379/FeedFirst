@@ -5,9 +5,14 @@ import { connectDB } from "./config/db";
 import { ensureAdminUser } from "./utils/ensureAdmin";
 
 const PORT = process.env.PORT || 5000;
-connectDB().then(async () => {
-  await ensureAdminUser();
-  app.listen(PORT, () =>
-    console.log(`BirdFeast API listening on port ${PORT}`),
-  );
-});
+connectDB()
+  .then(async () => {
+    await ensureAdminUser();
+    app.listen(PORT, () =>
+      console.log(`BirdFeast API listening on port ${PORT}`),
+    );
+  })
+  .catch((err) => {
+    console.error("Failed to start server:", err);
+    process.exit(1);
+  });

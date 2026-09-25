@@ -9,7 +9,17 @@ let connecting: Promise<void> | null = null;
 export default async function handler(req: any, res: any) {
   if (mongoose.connection.readyState === 0) {
     if (!connecting) connecting = connectDB();
-    await connecting;
+    try {
+      await connecting;
+    } catch (err) {
+      connecting = null; // let the next request retry instead of staying stuck
+      console.error("DB connection failed:", err);
+      res.status(500).json({
+        success: false,
+        message: "Database connection failed. Check server environment configuration.",
+      });
+      return;
+    }
   }
   return (app as any)(req, res);
 }
