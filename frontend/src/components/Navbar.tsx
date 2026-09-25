@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { ShoppingCart, Sun, Moon, X, Menu } from "lucide-react";
+import { ShoppingCart, X, Menu } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import { useCart } from "../context/CartContext";
-import { useTheme } from "../context/ThemeContext";
+// import { useTheme } from "../context/ThemeContext";
 import siteIcon from "../images/siteIcon.png";
 
 const navLinks = [
