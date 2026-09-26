@@ -1,6 +1,5 @@
 @import "tailwindcss";
 
-@custom-variant dark (&:where(.dark, .dark *));
 :root {
   --color-forest: #2f4a3c;
   --color-forest-dark: #1f3329;
@@ -12,8 +11,8 @@
   --color-muted: #6b7280;
   --color-surface: #ffffff;
   --color-border: rgba(0, 0, 0, 0.08);
-}
-
+ }
+/*
 .dark {
   --color-forest: #7fb583;
   --color-forest-dark: #9bc99d;
@@ -25,7 +24,7 @@
   --color-muted: #9ca3af;
   --color-surface: #1c2421;
   --color-border: rgba(255, 255, 255, 0.1);
-}
+} */
 
 body {
   font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
@@ -33,6 +32,7 @@ body {
   color: var(--color-text);
   transition: background-color 0.2s ease, color 0.2s ease;
 }
+/* 
 .dark body {
   color: #e5e7eb;
-}
+} */

@@ -3,7 +3,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { ShoppingCart, X, Menu } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import { useCart } from "../context/CartContext";
-// import { useTheme } from "../context/ThemeContext";
 import siteIcon from "../images/siteIcon.png";
 
 const navLinks = [
@@ -35,18 +34,6 @@ const CartIcon = () => {
   );
 };
 
-// const ThemeToggle = () => {
-//   const { theme, toggleTheme } = useTheme();
-//   return (
-//     <button
-//       onClick={toggleTheme}
-//       aria-label="Toggle dark mode"
-//       className="flex items-center justify-center w-9 h-9 rounded-full border border-black/10 dark:border-white/10 text-gray-700 dark:text-gray-200 hover:bg-black/5 dark:hover:bg-white/10 transition-colors"
-//     >
-//       {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
-//     </button>
-//   );
-// };
 
 const Navbar = () => {
   const { user, logout } = useAuth();
@@ -125,7 +112,6 @@ const Navbar = () => {
           </div>
 
           <div className="md:hidden flex items-center gap-3">
-            {/* <ThemeToggle /> */}
             <CartIcon />
           </div>
 

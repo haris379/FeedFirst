@@ -34,11 +34,9 @@ import ManageCustomers from "./pages/admin/ManageCustomers";
 import DeliverySettings from "./pages/admin/DeliverySettings";
 import AdminProfile from "./pages/admin/AdminProfile";
 import ForgotPassword from "./pages/ForgotPassword";
-import { ThemeProvider } from "./context/ThemeContext";
 
 function App() {
   return (
-    <ThemeProvider>
       <ToastProvider>
         <AuthProvider>
           <CartProvider>
@@ -132,7 +130,6 @@ function App() {
           </CartProvider>
         </AuthProvider>
       </ToastProvider>
-    </ThemeProvider>
   );
 }
 
