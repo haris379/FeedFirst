@@ -445,7 +445,6 @@ const ManageProducts = () => {
                         <input
                           type="file"
                           accept="image/jpeg,image/png,image/webp"
-                          capture="environment"
                           onChange={handleImageSelect}
                           disabled={uploading}
                           className="sr-only"
