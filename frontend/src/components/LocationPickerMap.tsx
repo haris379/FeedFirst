@@ -58,7 +58,7 @@ const LocationPickerMap = ({ lat, lng, onMove }: LocationPickerMapProps) => {
 
   return (
     <div
-      className="rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700"
+      className="rounded-xl overflow-hidden border border-gray-200 "
       style={{ height: 260 }}
     >
       <MapContainer

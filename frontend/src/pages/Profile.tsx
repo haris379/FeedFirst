@@ -32,7 +32,11 @@ const Profile = () => {
       await api.put("/auth/me", {
         name: data.name,
         phone: data.phone,
-        address: { street: data.street, city: data.city, postalCode: data.postalCode },
+        address: {
+          street: data.street,
+          city: data.city,
+          postalCode: data.postalCode,
+        },
       });
       showToast("Profile updated", "success");
     } catch (err: any) {
@@ -44,32 +48,56 @@ const Profile = () => {
 
   return (
     <div className="max-w-lg mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      <h1 className="text-2xl font-bold text-[var(--color-forest)] mb-6">My Profile</h1>
-      <form onSubmit={handleSubmit(onSubmit)} className="bg-white rounded-2xl border border-black/5 p-6 space-y-4">
+      <h1 className="text-2xl font-bold text-[var(--color-forest)] mb-6">
+        My Profile
+      </h1>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="bg-white rounded-2xl border border-black/5 p-6 space-y-4"
+      >
         <div>
           <label className="text-sm text-gray-600">Email</label>
-          <input value={user?.email} disabled className="w-full mt-1 px-4 py-2.5 rounded-lg border border-gray-200 bg-gray-50 text-gray-500" />
+          <input
+            value={user?.email}
+            disabled
+            className="w-full mt-1 px-4 py-2.5 rounded-lg border border-gray-200 bg-gray-50 text-gray-500"
+          />
         </div>
         <div>
           <label className="text-sm text-gray-600">Full Name</label>
-          <input {...register("name")} className="w-full mt-1 px-4 py-2.5 rounded-lg border border-gray-300" />
+          <input
+            {...register("name")}
+            className="w-full mt-1 px-4 py-2.5 rounded-lg border border-gray-300"
+          />
         </div>
         <div>
           <label className="text-sm text-gray-600">Phone</label>
-          <input {...register("phone")} className="w-full mt-1 px-4 py-2.5 rounded-lg border border-gray-300" />
+          <input
+            {...register("phone")}
+            className="w-full mt-1 px-4 py-2.5 rounded-lg border border-gray-300"
+          />
         </div>
         <div>
           <label className="text-sm text-gray-600">Street Address</label>
-          <input {...register("street")} className="w-full mt-1 px-4 py-2.5 rounded-lg border border-gray-300" />
+          <input
+            {...register("street")}
+            className="w-full mt-1 px-4 py-2.5 rounded-lg border border-gray-300"
+          />
         </div>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label className="text-sm text-gray-600">City</label>
-            <input {...register("city")} className="w-full mt-1 px-4 py-2.5 rounded-lg border border-gray-300" />
+            <input
+              {...register("city")}
+              className="w-full mt-1 px-4 py-2.5 rounded-lg border border-gray-300"
+            />
           </div>
           <div>
             <label className="text-sm text-gray-600">Postal Code</label>
-            <input {...register("postalCode")} className="w-full mt-1 px-4 py-2.5 rounded-lg border border-gray-300" />
+            <input
+              {...register("postalCode")}
+              className="w-full mt-1 px-4 py-2.5 rounded-lg border border-gray-300"
+            />
           </div>
         </div>
         <button

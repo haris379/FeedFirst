@@ -21,7 +21,7 @@ const CartIcon = () => {
   return (
     <Link
       to="/cart"
-      className="relative flex items-center text-gray-700 dark:text-gray-200 hover:text-[var(--color-forest)] transition-colors"
+      className="relative flex items-center text-gray-700 hover:text-[var(--color-forest)] transition-colors"
       aria-label="View cart"
     >
       <ShoppingCart size={22} />
@@ -56,7 +56,7 @@ const Navbar = () => {
           FeedFirst
         </Link>
 
-        <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-gray-700 dark:text-gray-200">
+        <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-gray-700 ">
           {navLinks.map((l) => (
             <Link
               key={l.to}
@@ -131,7 +131,7 @@ const Navbar = () => {
               key={l.to}
               to={l.to}
               onClick={() => setOpen(false)}
-              className="py-1 text-gray-700 dark:text-gray-200"
+              className="py-1 text-gray-700 "
             >
               {l.label}
             </Link>
