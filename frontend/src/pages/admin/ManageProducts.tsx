@@ -160,12 +160,12 @@ const ManageProducts = () => {
   );
 
   return (
-    <div>
-      <div className="flex items-center justify-between mb-6">
+    <div className="w-full min-w-0">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-5 sm:mb-6">
         <h1 className="text-2xl font-bold text-gray-800">Manage Products</h1>
         <button
           onClick={openAdd}
-          className="px-4 py-2.5 rounded-lg bg-[var(--color-forest)] text-white font-semibold"
+          className="w-full sm:w-auto px-4 py-2.5 rounded-lg bg-[var(--color-forest)] text-white font-semibold"
         >
           + Add Product
         </button>
@@ -175,86 +175,170 @@ const ManageProducts = () => {
         value={search}
         onChange={(e) => setSearch(e.target.value)}
         placeholder="Search products..."
-        className="w-full sm:w-80 mb-4 px-4 py-2.5 rounded-lg border border-gray-300"
+        className="w-full sm:max-w-sm mb-4 px-4 py-2.5 rounded-lg border border-gray-300"
       />
 
       {loading ? (
         <Loading />
       ) : (
-        <div className="bg-white rounded-2xl border border-black/5 overflow-x-auto">
-          <table className="w-full text-sm">
-            <thead className="bg-gray-50 text-gray-500 text-left">
-              <tr>
-                <th className="px-4 py-3">Image</th>
-                <th className="px-4 py-3">Name</th>
-                <th className="px-4 py-3">SKU</th>
-                <th className="px-4 py-3">Price</th>
-                <th className="px-4 py-3">Stock</th>
-                <th className="px-4 py-3">Status</th>
-                <th className="px-4 py-3">Actions</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-black/5">
-              {filtered.map((p) => (
-                <tr key={p._id}>
-                  <td className="px-4 py-3">
+        <>
+          <div className="hidden sm:block bg-white rounded-2xl border border-black/5 overflow-x-auto">
+            <table className="w-full min-w-[760px] text-sm">
+              <thead className="bg-gray-50 text-gray-500 text-left">
+                <tr>
+                  <th className="px-4 py-3">Image</th>
+                  <th className="px-4 py-3">Name</th>
+                  <th className="px-4 py-3">SKU</th>
+                  <th className="px-4 py-3">Price</th>
+                  <th className="px-4 py-3">Stock</th>
+                  <th className="px-4 py-3">Status</th>
+                  <th className="px-4 py-3">Actions</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-black/5">
+                {filtered.map((p) => (
+                  <tr key={p._id}>
+                    <td className="px-4 py-3">
+                      {p.image ? (
+                        <img
+                          src={p.image}
+                          alt={p.name}
+                          className="w-10 h-10 object-contain rounded-lg border border-gray-200 bg-var(--color-leaf)/5"
+                        />
+                      ) : (
+                        <div className="w-10 h-10 rounded-lg bg-[var(--color-leaf)]/10 flex items-center justify-center text-lg">
+                          🌾
+                        </div>
+                      )}
+                    </td>
+                    <td className="px-4 py-3 font-medium text-gray-800">
+                      {p.name}
+                      {p.featured && (
+                        <span className="ml-2 text-xs text-var(--color-seed)">
+                          ★ Featured
+                        </span>
+                      )}
+                    </td>
+                    <td className="px-4 py-3 text-gray-500">{p.sku}</td>
+                    <td className="px-4 py-3">
+                      Rs {p.price}/{p.unit}
+                    </td>
+                    <td className="px-4 py-3">{p.stock}-kg</td>
+                    <td className="px-4 py-3">
+                      <button
+                        onClick={() => toggleStatus(p)}
+                        className={`text-xs font-semibold px-3 py-1 rounded-full ${p.status === "active" ? "bg-green-100 text-green-700" : "bg-gray-200 text-gray-600"}`}
+                      >
+                        {p.status}
+                      </button>
+                    </td>
+                    <td className="px-4 py-3 space-x-3">
+                      <button
+                        onClick={() => openEdit(p)}
+                        className="text-var(--color-forest) hover:underline"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        onClick={() => remove(p._id)}
+                        className="text-red-500 hover:underline"
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          {/* Mobile product cards */}
+          <div className="sm:hidden space-y-3">
+            {filtered.length === 0 ? (
+              <div className="bg-white rounded-2xl border border-black/5 p-6 text-center text-sm text-gray-500">
+                No products found.
+              </div>
+            ) : (
+              filtered.map((p) => (
+                <div
+                  key={p._id}
+                  className="bg-white rounded-2xl border border-black/5 p-4"
+                >
+                  <div className="flex items-start gap-3">
                     {p.image ? (
                       <img
                         src={p.image}
                         alt={p.name}
-                        className="w-10 h-10 object-contain rounded-lg border border-gray-200 bg-var(--color-leaf)/5"
+                        className="w-16 h-16 shrink-0 object-contain rounded-xl border border-gray-200 bg-white"
                       />
                     ) : (
-                      <div className="w-10 h-10 rounded-lg bg-[var(--color-leaf)]/10 flex items-center justify-center text-lg">
+                      <div className="w-16 h-16 shrink-0 rounded-xl bg-[var(--color-leaf)]/10 flex items-center justify-center text-2xl">
                         🌾
                       </div>
                     )}
-                  </td>
-                  <td className="px-4 py-3 font-medium text-gray-800">
-                    {p.name}
-                    {p.featured && (
-                      <span className="ml-2 text-xs text-var(--color-seed)">
-                        ★ Featured
-                      </span>
-                    )}
-                  </td>
-                  <td className="px-4 py-3 text-gray-500">{p.sku}</td>
-                  <td className="px-4 py-3">
-                    Rs {p.price}/{p.unit}
-                  </td>
-                  <td className="px-4 py-3">{p.stock}-kg</td>
-                  <td className="px-4 py-3">
+
+                    <div className="min-w-0 flex-1">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <h3 className="font-semibold text-gray-800 break-words">
+                          {p.name}
+                        </h3>
+                        {p.featured && (
+                          <span className="text-xs font-semibold text-[var(--color-seed)]">
+                            ★ Featured
+                          </span>
+                        )}
+                      </div>
+
+                      <p className="text-xs text-gray-500 mt-1 break-all">
+                        SKU: {p.sku}
+                      </p>
+
+                      <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-2 text-sm">
+                        <span>
+                          Rs {p.price}/{p.unit}
+                        </span>
+                        <span>{p.stock} kg</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-wrap items-center justify-between gap-3 mt-4 pt-3 border-t border-gray-100">
                     <button
                       onClick={() => toggleStatus(p)}
-                      className={`text-xs font-semibold px-3 py-1 rounded-full ${p.status === "active" ? "bg-green-100 text-green-700" : "bg-gray-200 text-gray-600"}`}
+                      className={`text-xs font-semibold px-3 py-1.5 rounded-full ${
+                        p.status === "active"
+                          ? "bg-green-100 text-green-700"
+                          : "bg-gray-200 text-gray-600"
+                      }`}
                     >
                       {p.status}
                     </button>
-                  </td>
-                  <td className="px-4 py-3 space-x-3">
-                    <button
-                      onClick={() => openEdit(p)}
-                      className="text-var(--color-forest) hover:underline"
-                    >
-                      Edit
-                    </button>
-                    <button
-                      onClick={() => remove(p._id)}
-                      className="text-red-500 hover:underline"
-                    >
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+
+                    <div className="flex items-center gap-4 text-sm">
+                      <button
+                        onClick={() => openEdit(p)}
+                        className="text-[var(--color-forest)] font-semibold hover:underline"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        onClick={() => remove(p._id)}
+                        className="text-red-500 font-semibold hover:underline"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+        </>
       )}
 
       {showForm && (
-        <div className="fixed inset-0 bg-black/40 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-2xl p-6 w-full max-w-lg max-h-[90vh] overflow-y-auto">
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center p-3 sm:p-4 z-50">
+          <div className="bg-white rounded-2xl p-4 sm:p-6 w-full max-w-lg max-h-[90dvh] overflow-y-auto">
             <h2 className="font-bold text-lg text-gray-800 mb-4">
               {editingId ? "Edit Product" : "Add Product"}
             </h2>
@@ -286,7 +370,7 @@ const ManageProducts = () => {
                   </option>
                 ))}
               </select>
-              <div className="grid grid-cols-3 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 <input
                   placeholder="Price"
                   type="number"
@@ -394,17 +478,17 @@ const ManageProducts = () => {
                 Featured product
               </label>
             </div>
-            <div className="flex justify-end gap-3 mt-6">
+            <div className="flex flex-col-reverse sm:flex-row sm:justify-end gap-3 mt-6">
               <button
                 onClick={() => setShowForm(false)}
-                className="px-4 py-2.5 rounded-lg border border-gray-300 text-gray-600"
+                className="w-full sm:w-auto px-4 py-2.5 rounded-lg border border-gray-300 text-gray-600"
               >
                 Cancel
               </button>
               <button
                 onClick={submit}
                 disabled={saving}
-                className="px-5 py-2.5 rounded-lg bg-[var(--color-forest)] text-white font-semibold disabled:opacity-50"
+                className="w-full sm:w-auto px-5 py-2.5 rounded-lg bg-[var(--color-forest)] text-white font-semibold disabled:opacity-50"
               >
                 {saving ? "Saving..." : "Save Product"}
               </button>
