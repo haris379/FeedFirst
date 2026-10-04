@@ -10,7 +10,7 @@ export interface IOrderIngredient {
 }
 
 export interface ICustomFeed {
-  birdType: string;
+  birdType?: string;
   ingredients: IOrderIngredient[];
   totalWeightKg: number;
   specialInstructions?: string;
@@ -61,7 +61,7 @@ const OrderSchema = new Schema<IOrder>(
     user: { type: Schema.Types.ObjectId, ref: "User", required: true },
     orderNumber: { type: String, required: true, unique: true },
     customFeed: {
-      birdType: { type: String, required: true },
+      birdType: { type: String, default: "" },
       ingredients: [
         {
           product: {
