@@ -44,18 +44,24 @@ const OrderConfirmation = () => {
     );
   }
 
+  // The order is only confirmed once the required payment has been received.
+  const awaitingPayment =
+    order.payment.status !== "paid" && order.status === "pending_payment";
+
   return (
     <div className="max-w-2xl mx-auto px-4 py-16 text-center">
-      <div className="text-5xl mb-4">✅</div>
+      <div className="text-5xl mb-4">{awaitingPayment ? "⏳" : "✅"}</div>
 
       <h1 className="text-2xl font-bold text-[var(--color-forest)]">
-        Order Placed!
+        {awaitingPayment ? "Awaiting Advance Payment" : "Order Placed!"}
       </h1>
 
       <p className="text-gray-500 mt-2">
         Order{" "}
         <span className="font-mono font-semibold">{order.orderNumber}</span> has
         been received.
+        {awaitingPayment &&
+          " It will be confirmed once your advance payment is received."}
       </p>
 
       <div className="bg-white rounded-2xl border border-black/5 p-6 mt-8 text-left space-y-2">

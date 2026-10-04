@@ -141,6 +141,19 @@ const Checkout = () => {
     ? formCity
     : selectedSavedAddress?.city;
 
+  // Cash on delivery can't cover a payment that is due in advance.
+  const amountDueNow = pricing
+    ? paymentOption === "full_amount"
+      ? pricing.total
+      : pricing.advanceRequired
+    : 1;
+  const availableMethods = paymentMethods.filter(
+    (m) => m.id !== "cod" || amountDueNow === 0,
+  );
+  const selectedMethod = availableMethods.some((m) => m.id === method)
+    ? method
+    : availableMethods[0].id;
+
   useEffect(() => {
     if (lines.length === 0) return;
 
@@ -180,7 +193,7 @@ const Checkout = () => {
         })),
         specialInstructions,
         deliveryAddress,
-        paymentMethod: method,
+        paymentMethod: selectedMethod,
         paymentOption,
         customerNotes,
       });
@@ -623,13 +636,13 @@ const Checkout = () => {
           <h2 className="font-semibold text-gray-800 mb-3">Payment Method</h2>
 
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-            {paymentMethods.map((m) => (
+            {availableMethods.map((m) => (
               <button
                 type="button"
                 key={m.id}
                 onClick={() => setMethod(m.id)}
                 className={`px-4 py-3 rounded-xl border text-sm font-medium transition-colors ${
-                  method === m.id
+                  selectedMethod === m.id
                     ? "border-[var(--color-seed)] bg-[var(--color-seed)]/10 text-[var(--color-seed)]"
                     : "border-gray-300 text-gray-600 hover:border-gray-400 "
                 }`}
@@ -725,7 +738,7 @@ const Checkout = () => {
         <h2 className="font-bold text-lg text-gray-800 mb-4">Order Summary</h2>
 
         <p className="text-sm text-gray-500 mb-2">
-                  Customized Feed{birdType ? ` — ${birdType}` : ""}
+          Customized Feed{birdType ? ` — ${birdType}` : ""}
         </p>
 
         <ul className="text-sm text-gray-600 space-y-1 mb-4">

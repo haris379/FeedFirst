@@ -109,7 +109,7 @@ const CustomizeFeed = () => {
             {birdTypes.map((b) => (
               <button
                 key={b}
-                  onClick={() => setBirdType(birdType === b ? "" : b)}
+                onClick={() => setBirdType(birdType === b ? "" : b)}
                 className={`px-4 py-2 rounded-full text-sm font-medium border transition-colors ${
                   birdType === b
                     ? "bg-[var(--color-forest)] text-white border-var(--color-forest)"
@@ -296,23 +296,16 @@ const CustomizeFeed = () => {
               <span>Rs {pricing.total}</span>
             </div>
             <p className="text-xs text-var(--color-seed) mt-2">
-              Rs {pricing.advanceRequired} delivery advance is collected at
-              checkout since your feed is made to order.
+              {pricing.advanceRequired > 0
+                ? `Rs ${pricing.advanceRequired} delivery advance is collected at checkout since your feed is made to order.`
+                : "No delivery charge applies to this order, so no advance is required."}
             </p>
           </div>
         )}
 
         <button
-          disabled={
-            lines.length === 0 || !birdType || pricingLoading || !!pricingError
-          }
-          onClick={() => {
-            if (!birdType) {
-              showToast("Please select a bird type first", "error");
-              return;
-            }
-            navigate("/cart");
-          }}
+          disabled={lines.length === 0 || pricingLoading || !!pricingError}
+          onClick={() => navigate("/cart")}
           className="mt-6 w-full py-3 rounded-full bg-[var(--color-forest-dark)] text-white font-semibold hover:bg-[var(--color-forest-dark)] disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
         >
           Review in Cart

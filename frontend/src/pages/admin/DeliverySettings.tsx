@@ -81,9 +81,10 @@ const DeliverySettings = () => {
       <p className="text-sm text-gray-500 mb-6">
         Orders under the weight threshold pay the full delivery fee. Orders at
         or above the threshold pay
-        <strong> half</strong> the fee, collected as an advance at checkout.
-        Changing these settings only affects future orders — past orders keep
-        their original totals.
+        <strong> half</strong> the fee. Either way, the delivery fee is
+        collected as an advance at checkout, and the order is not confirmed
+        until it is paid. Changing these settings only affects future orders —
+        past orders keep their original totals.
       </p>
 
       <div className="bg-white rounded-2xl border border-black/5 p-6 space-y-4 mb-6">

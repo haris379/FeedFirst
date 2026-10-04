@@ -1,9 +1,26 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import api from "../services/api";
 import { useCart } from "../context/CartContext";
 import EmptyState from "../components/EmptyState";
-import type { PricingResult } from "../types";
+
+interface DeliveryRules {
+  baseDeliveryFee: number;
+  weightThresholdKg: number;
+  freeDeliveryThresholdKg?: number;
+}
+
+const RULES_CACHE_KEY = "bf_delivery_rules";
+
+// Last-known delivery rules, so the total can render instantly on repeat visits.
+const readCachedRules = (): DeliveryRules | null => {
+  try {
+    const raw = sessionStorage.getItem(RULES_CACHE_KEY);
+    return raw ? JSON.parse(raw) : null;
+  } catch {
+    return null;
+  }
+};
 
 const Cart = () => {
   const {
@@ -12,26 +29,66 @@ const Cart = () => {
     removeIngredient,
     addOrUpdateIngredient,
     clearCart,
+    totalWeightKg,
   } = useCart();
 
-  const [pricing, setPricing] = useState<PricingResult | null>(null);
+  const [rules, setRules] = useState<DeliveryRules | null>(readCachedRules);
   const navigate = useNavigate();
 
+  // Delivery rules are fetched once (not on every quantity change).
   useEffect(() => {
-    if (lines.length === 0) {
-      setPricing(null);
-      return;
+    api
+      .get("/delivery/settings")
+      .then((res) => {
+        setRules(res.data.settings);
+        try {
+          sessionStorage.setItem(
+            RULES_CACHE_KEY,
+            JSON.stringify(res.data.settings),
+          );
+        } catch {
+          /* ignore storage errors */
+        }
+      })
+      .catch(() => {
+        /* keep cached rules if any */
+      });
+  }, []);
+
+  // Same calculation as the backend pricingService, run on the cart data
+  // already on the page so the total updates instantly.
+  const pricing = useMemo(() => {
+    if (lines.length === 0 || !rules) return null;
+
+    const subtotal = Number(
+      lines
+        .reduce(
+          (sum, l) => sum + Number((l.product.price * l.quantity).toFixed(2)),
+          0,
+        )
+        .toFixed(2),
+    );
+    const weightKg = Number(totalWeightKg.toFixed(2));
+
+    let deliveryFee = rules.baseDeliveryFee;
+    if (weightKg >= rules.weightThresholdKg) {
+      deliveryFee = Number((rules.baseDeliveryFee / 2).toFixed(2));
+    }
+    if (
+      rules.freeDeliveryThresholdKg &&
+      weightKg >= rules.freeDeliveryThresholdKg
+    ) {
+      deliveryFee = 0;
     }
 
-    api
-      .post("/orders/quote", {
-        ingredients: lines.map((l) => ({
-          productId: l.product._id,
-          quantity: l.quantity,
-        })),
-      })
-      .then((res) => setPricing(res.data.pricing));
-  }, [lines]);
+    return {
+      subtotal,
+      deliveryFee,
+      // The delivery charge is always collected in advance at checkout.
+      advanceRequired: deliveryFee,
+      total: Number((subtotal + deliveryFee).toFixed(2)),
+    };
+  }, [lines, rules, totalWeightKg]);
 
   if (lines.length === 0) {
     return (
@@ -121,6 +178,12 @@ const Cart = () => {
             <span>Grand Total</span>
             <span>Rs {pricing.total}</span>
           </div>
+
+          {pricing.advanceRequired > 0 && (
+            <p className="text-xs text-gray-500 pt-1">
+              Rs {pricing.advanceRequired} delivery advance is due at checkout.
+            </p>
+          )}
         </div>
       )}
 
