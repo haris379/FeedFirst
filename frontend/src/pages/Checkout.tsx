@@ -725,7 +725,7 @@ const Checkout = () => {
         <h2 className="font-bold text-lg text-gray-800 mb-4">Order Summary</h2>
 
         <p className="text-sm text-gray-500 mb-2">
-          Customized Feed — {birdType}
+                  Customized Feed{birdType ? ` — ${birdType}` : ""}
         </p>
 
         <ul className="text-sm text-gray-600 space-y-1 mb-4">
