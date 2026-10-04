@@ -29,11 +29,8 @@ export const createOrder = asyncHandler(async (req: Request, res: Response) => {
     paymentOption = "delivery_advance",
     customerNotes,
   } = req.body;
-  if (!birdType || !Array.isArray(ingredients) || ingredients.length === 0) {
-    throw new ApiError(
-      400,
-      "Bird type and at least one ingredient are required",
-    );
+  if (!Array.isArray(ingredients) || ingredients.length === 0) {
+    throw new ApiError(400, "At least one ingredient is required");
   }
   if (
     !deliveryAddress ||
