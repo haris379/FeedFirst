@@ -60,9 +60,9 @@ const Cart = () => {
       </h1>
 
       <p className="text-sm text-gray-500 mb-6">
-        Bird type:{" "}
+        Bird type (optional):{" "}
         <span className="font-semibold text-gray-700 ">
-          {birdType || "Not set"}
+          {birdType || "Not specified"}
         </span>
       </p>
 
