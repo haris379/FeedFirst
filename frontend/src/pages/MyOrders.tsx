@@ -40,7 +40,7 @@ const MyOrders = () => {
               {" "}
               <div className="flex justify-between mt-3 text-sm text-gray-600">
                 <span>
-                  {o.customFeed.birdType} · {o.customFeed.totalWeightKg} kg
+                         {o.customFeed.birdType ? `${o.customFeed.birdType} · ` : ""}{o.customFeed.totalWeightKg} kg
                 </span>
                 <span className="font-semibold text-gray-800">
                   Rs {o.total}

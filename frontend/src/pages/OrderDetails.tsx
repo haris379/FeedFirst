@@ -88,7 +88,7 @@ const OrderDetails = () => {
 
       <div className="bg-white rounded-2xl border border-black/5 p-6 mb-6">
         <h2 className="font-semibold text-gray-800 mb-3">
-          Custom Feed — {order.customFeed.birdType}
+                  Custom Feed{order.customFeed.birdType ? ` — ${order.customFeed.birdType}` : ""}
         </h2>
 
         <ul className="divide-y divide-black/5">

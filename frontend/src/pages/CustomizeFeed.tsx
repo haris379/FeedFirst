@@ -102,13 +102,14 @@ const CustomizeFeed = () => {
 
         <div className="mb-6">
           <label className="block text-sm font-medium text-gray-700 mb-2">
-            Bird Type
+            Bird Type{" "}
+            <span className="text-gray-400 font-normal">(optional)</span>
           </label>
           <div className="flex flex-wrap gap-2">
             {birdTypes.map((b) => (
               <button
                 key={b}
-                onClick={() => setBirdType(b)}
+                  onClick={() => setBirdType(birdType === b ? "" : b)}
                 className={`px-4 py-2 rounded-full text-sm font-medium border transition-colors ${
                   birdType === b
                     ? "bg-[var(--color-forest)] text-white border-var(--color-forest)"

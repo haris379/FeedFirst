@@ -70,7 +70,7 @@ export interface Order {
   _id: string;
   orderNumber: string;
   customFeed: {
-    birdType: string;
+    birdType?: string;
     ingredients: PricingResult["ingredients"];
     totalWeightKg: number;
     specialInstructions?: string;
