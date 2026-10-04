@@ -79,23 +79,22 @@ export const priceCustomFeed = async (ingredients: IngredientInput[], city?: str
   const fullDeliveryFee = base + cityFee;
 
   // Business rule: orders under the weight threshold pay the full delivery
-  // fee; orders at/over the threshold pay HALF the delivery fee, and that
-  // half must be collected as an advance payment at checkout (the feed is
-  // made to order, so the advance is taken up front).
+  // fee; orders at/over the threshold pay HALF the delivery fee. Either way,
+  // the delivery charge is made-to-order and must be collected in advance
+  // before the order is confirmed, so the advance is always the delivery fee.
   let deliveryFee: number;
-  let advanceRequired: number;
   if (totalWeightKg >= threshold) {
     deliveryFee = Number((fullDeliveryFee / 2).toFixed(2));
-    advanceRequired = deliveryFee; // the half fee itself is the advance
   } else {
     deliveryFee = fullDeliveryFee;
-    advanceRequired = 0; // under-threshold orders pay delivery on receipt
   }
 
   if (settings?.freeDeliveryThresholdKg && totalWeightKg >= settings.freeDeliveryThresholdKg) {
     deliveryFee = 0;
-    advanceRequired = 0;
   }
+
+  // The advance can only be 0 when there is genuinely no delivery charge.
+  const advanceRequired = deliveryFee;
 
   const total = Number((subtotal + deliveryFee).toFixed(2));
 
