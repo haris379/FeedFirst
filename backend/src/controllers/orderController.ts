@@ -61,6 +61,19 @@ export const createOrder = asyncHandler(async (req: Request, res: Response) => {
     );
   }
 
+  // Amount that must be received before this order can be confirmed.
+  const amountDueNow =
+    paymentOption === "full_amount" ? pricing.total : pricing.advanceRequired;
+
+  // Cash on delivery can't satisfy an up-front payment, so it is only
+  // allowed when nothing is owed before delivery.
+  if (paymentMethod === "cod" && amountDueNow > 0) {
+    throw new ApiError(
+      400,
+      "Cash on delivery can't be used for the payment required in advance. Please choose another payment method.",
+    );
+  }
+
   // Atomically reserve each ingredient. If any reservation/order creation fails,
   // release every reservation already made.
   const reserved: { product: string; quantity: number }[] = [];
@@ -109,20 +122,14 @@ export const createOrder = asyncHandler(async (req: Request, res: Response) => {
       paymentOption,
 
       payment: {
-        status:
-          paymentOption === "delivery_advance" && pricing.advanceRequired === 0
-            ? "paid" // nothing was owed upfront, so there's nothing left pending
-            : "pending",
+        // Only "paid" when nothing at all is owed up front (e.g. free
+        // delivery). Otherwise it stays pending until payment is received.
+        status: amountDueNow === 0 ? "paid" : "pending",
         method: paymentMethod,
-        amount:
-          paymentOption === "full_amount"
-            ? pricing.total
-            : pricing.advanceRequired,
+        amount: amountDueNow,
       },
-      status:
-        paymentOption === "delivery_advance" && pricing.advanceRequired === 0
-          ? "confirmed"
-          : "pending_payment",
+      // An order is never confirmed just because it was placed.
+      status: amountDueNow === 0 ? "confirmed" : "pending_payment",
       customerNotes,
     });
   } catch (error) {
